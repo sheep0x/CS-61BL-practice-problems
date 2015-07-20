@@ -1,0 +1,209 @@
+% Copyright (C)  2015  Chen Ruichao <linuxer.sheep.0x@gmail.com>.
+% This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+% To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
+
+
+% TODO example tree and output
+
+\documentclass{article}
+\usepackage{CJK}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{graphicx}
+\usepackage[rightcaption]{sidecap}
+\usepackage{caption}
+\usepackage{xmpincl}
+\includexmp{license/cc_by-sa}
+
+
+
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+\title{Tree Practice Problems}
+\author{Chen Ruichao \texttt{<linuxer.sheep.0x@gmail.com>}}
+\date{} % no date
+\maketitle
+
+
+
+\section{More Amoeba}
+Remember the \verb|Amoeba| class?  Let's play with it a bit more.  (Feel free to make a copy and do the practice in the copy, just in case you mess up your lab.)
+
+\subsection{Warming Up}
+% Bloom's Taxonomy: apply
+\begin{enumerate}
+    \item Write a method \verb|int numLeaf()|          that counts the number of leaf     nodes in an \verb|AmoebaFamily|.
+    \item Write a method \verb|int numInternalNodes()| that counts the number of internal nodes in an \verb|AmoebaFamily|\footnote{An internal node is a node that's not a leaf.}.
+\end{enumerate}
+
+
+%\subsection{Traversal}
+%Write a method \verb|void walkAround()| that prints out .
+% TODO 如何解释那个类似DFS序的东西？
+
+\subsection{Two Descendants}
+% Bloom's Taxonomy: apply
+Write a method \verb|int twoDescendants()| that counts the number of amoeba(e) that have exactly two children\footnote{Recall that a child is a node directly below another node.}.
+
+\subsection{Longest Path}
+% Bloom's Taxonomy: analyze
+
+\begin{enumerate}
+    \item Write a method \verb|int longestAnchoredPathLength()| that finds the longest path in the tree that pass through the root node, and return the number of nodes on that path.  Of course, your path cannot include any node more than once.
+    \item Challenge: Write a method \verb|int longestPathLength()| that finds the longest path in the tree and return the number of nodes on that path.  Of course, your path cannot include any node more than once.  (Friendly reminder: the longest path may not may not pass through the root node.)
+\end{enumerate}
+
+For those with burning curiosity:
+\begin{enumerate}
+    \item Analyze your runtime for \verb|longestPathLength|.  Could you give the runtime in Big O notation?  Could you give the runtime in Big $\Theta$ notation?
+    \item Challenge\footnote{Don't worry if you can't solve this.  This is far beyond the scope of CS 61BL.}: There's a way to find the longest path in O($N \log N$) time, where $N$ is the number of nodes in the tree.  Can you figure it out?
+\end{enumerate}
+
+
+\section{Trees, just trees}
+\begin{verbatim}
+// I hate trees without dummy nodes...
+class BinaryTree {
+    class Node {
+        int v;
+        Node l, r;  // children
+
+        Node(int v, Node l, Node r) {
+            this.v = v;
+            this.l = l;
+            this.r = r;
+        }
+        Node(int v) { this(v, null, null); }
+    }
+
+    Node root;
+
+    BinaryTree() {
+        root = null;
+    }
+
+    // ...
+}
+
+class Tree {
+    class Node {
+        int v;
+        ArrayList<Node> ch; // children
+
+        Node(int v) {
+            this.v = v;
+            this.ch = new ArrayList<Node>();
+        }
+
+        void addChild(Node n) {
+            ch.add(n);
+        }
+    }
+
+    Node root;
+
+    Tree() {
+        root = null;
+    }
+
+    // ...
+}
+\end{verbatim}
+
+
+\begin{itemize}
+    \item Write a method \verb|boolean contains(int v)| for \verb|Tree| that checks whether $v$ appears in the tree at least once.  Also write a version for \verb|BinaryTree|.
+    \item Write a method \verb|boolean isBST()| for \verb|BinaryTree| that checks whether the binary tree is a BST.
+    %\item Write a method \verb|boolean isHeap()| for \verb|BinaryTree| that checks whether the binary tree is a binary heap.
+    \item Write a method \verb|boolean hasDuplicate()| for \verb|Tree| that checks whether the tree contains any value more than once.  {\tiny (Hint: you'll probably find a \verb|HashSet| handy)}
+    \item Lots of tree algorithms only works on binary trees, so in algorithm research, we often want to convert an aribitrary tree to a binary tree.  One commond approach is the left-children-right-sibling method, which creates a binary tree in which every node's left child is the node's first children in the original tree, and every node's right child is the node's next sibling in the original tree.  For example, if we transform the tree
+        \begin{verbatim}
+            2
+          / | \
+         5  3  4
+        / \ |
+        6 1 7
+        \end{verbatim}
+        to a left-children-right-sibling representation, we'll get
+        \begin{verbatim}
+              2
+             /
+            5
+          /   \
+         6     3
+          \   / \
+           1 7   4
+        \end{verbatim} %.
+        Write a method \verb|BinaryTree toBinary()| for \verb|Tree| that converts the tree to a binary tree using the approach we described above.
+\end{itemize}
+
+\section{Applications!}
+\subsection{The Upset Manager}
+(Original problem: \begin{CJK*}{UTF8}{gbsn}郁闷的出纳员\end{CJK*} from NOI 2004, China)
+
+% TODO how to add a dot without making it a period (with extra spacing)?
+OIER ltd is a large software company with tens of thousands of employees.  As a manager, my job is to keep track of the salaries of each employee.  What really upsets me is that our boss is really random.  He frequently adjusts salaries by increasing the salary for each employee by a certain amount, or decreasing it by a certain amount.
+
+Our employees are really uncomfortable with the frequent changes, especially when everybody's salary decreases.  When an employee's salary gets lower than the amount guaranteed by the contract, he/she will be very angry and leave the company immediately.  By the way, every employee has the same minimum salary limit on their contract.
+
+Whenever a new employee comes, I need to create an entry in our financial database; and when somebody leaves, I need to delete the corresponding entry.  The boss often ask me about the salaries, um, in a weird manner.  Instead of asking about the salary of a certain employee, he asks what the $k$-th highest salary entry is.  Sorting out the entries by hand is really tedious, and I guess you already know why I hired you: to write a program that keeps track of the salaries information for me.
+
+\begin{verbatim}
+// You are required to use a BST.  (Can you see why it's faster?)
+
+class SalaryDatabase {
+    // your instance variables here
+    //...
+
+    /**
+     * Creates an empty database (i.e.: there's no employee in the company yet).
+     */
+    SalaryDatabase(int minimumSalary) {
+        /* your code here */
+    }
+
+    /**
+     * Adds an entry to the database, with initialSalary as the initial value.
+     */
+    void addEmployee(int initialSalary) {
+        /* your code here */
+    }
+
+    /**
+     * Increases every entry by delta.
+     */
+    void increaseSalary(int delta) {
+        /* your code here */
+    }
+
+    /**
+     * Decreases every entry by delta.  Don't forget that some employees may
+     * leave and you need to update the data to reflect this.
+     */
+    void decreaseSalary(int delta) {
+        /* your code here */
+    }
+
+    /**
+     * Returns the kth highest salary entry.
+     */
+    int decreaseSalary(int k) {
+        /* your code here */
+    }
+}
+\end{verbatim}
+
+
+
+
+
+% TreeList will be pretty hard (because the BST here is very implicit and apparently nothing satisfies the BST property), so I skipped it.
+
+
+
+
+\include{license/latex}
+\end{document}
+
