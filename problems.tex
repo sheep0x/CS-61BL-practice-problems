@@ -52,12 +52,12 @@ Write a method \verb|int twoDescendants()| that counts the number of amoeba(e) t
 
 \begin{enumerate}
     \item Write a method \verb|int longestAnchoredPathLength()| that finds the longest path in the tree that pass through the root node, and return the number of nodes on that path.  Of course, your path cannot include any node more than once.
-    \item Challenge: Write a method \verb|int longestPathLength()| that finds the longest path in the tree and return the number of nodes on that path.  Of course, your path cannot include any node more than once.  (Friendly reminder: the longest path may not may not pass through the root node.)
+    \item Challenge: Write a method \verb|int longestPathLength()| that finds the longest path in the tree and return the number of nodes on that path.  Of course, your path cannot include any node more than once.  (Friendly reminder: the longest path may or may not pass through the root node.)
 \end{enumerate}
 
 For those with burning curiosity:
 \begin{enumerate}
-    \item Analyze your runtime for \verb|longestPathLength|.  Could you give the runtime in Big O notation?  Could you give the runtime in Big $\Theta$ notation?
+    \item Analyze the runtime of your \verb|longestPathLength|.  Could you give the runtime in Big O notation?  Could you give the runtime in Big $\Theta$ notation?
     \item Challenge\footnote{Don't worry if you can't solve this.  This is far beyond the scope of CS 61BL.}: There's a way to find the longest path in O($N \log N$) time, where $N$ is the number of nodes in the tree.  Can you figure it out?
 \end{enumerate}
 
@@ -144,11 +144,11 @@ class Tree {
 (Original problem: \begin{CJK*}{UTF8}{gbsn}郁闷的出纳员\end{CJK*} from NOI 2004, China)
 
 % TODO how to add a dot without making it a period (with extra spacing)?
-OIER ltd is a large software company with tens of thousands of employees.  As a manager, my job is to keep track of the salaries of each employee.  What really upsets me is that our boss is really random.  He frequently adjusts salaries by increasing the salary for each employee by a certain amount, or decreasing it by a certain amount.
+OIER ltd is a large software company with tens of thousands of employees.  As a manager, my job is to keep track of the salaries of each employee.  What really upsets me is that our boss is really random.  He frequently adjusts salaries by increasing/decreasing the salary for each employee by a certain amount. For example, if two employees A and B had \$1000/month and \$1500/month correspondingly, and salaries increase by \$8000/month, they'll have \$9000 and \$9500 per month, correspondingly.
 
 Our employees are really uncomfortable with the frequent changes, especially when everybody's salary decreases.  When an employee's salary gets lower than the amount guaranteed by the contract, he/she will be very angry and leave the company immediately.  By the way, every employee has the same minimum salary limit on their contract.
 
-Whenever a new employee comes, I need to create an entry in our financial database; and when somebody leaves, I need to delete the corresponding entry.  The boss often ask me about the salaries, um, in a weird manner.  Instead of asking about the salary of a certain employee, he asks what the $k$-th highest salary entry is.  Sorting out the entries by hand is really tedious, and I guess you already know why I hired you: to write a program that keeps track of the salaries information for me.
+Whenever a new employee comes, I need to create an entry in our financial database; and when somebody leaves, I need to delete the corresponding entry.  The boss often asks me about the salaries, um, in a weird manner.  Instead of asking about the salary of a certain employee, he asks what the $k$-th highest salary entry is.  Sorting out the entries by hand is really tedious, and I guess you already know why I hired you: I want you to write a program that keeps track of the salary information for me.
 
 \begin{verbatim}
 // You are required to use a BST.  (Can you see why it's faster?)
@@ -189,7 +189,7 @@ class SalaryDatabase {
     /**
      * Returns the kth highest salary entry.
      */
-    int decreaseSalary(int k) {
+    int kthHighestSalary(int k) {
         /* your code here */
     }
 }
